@@ -1,0 +1,5 @@
+firstName,lastName,email,gender,mobile
+John,Doe,john.doe@example.com,Male,0123456789
+Jane,Smith,jane.smith@example.com,Female,0987654321
+,Nguyen,nguyen@example.com,Male,0123456789
+Anna,Lee,invalidemail,Female,12345 
