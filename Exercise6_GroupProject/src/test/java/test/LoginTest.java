@@ -47,6 +47,39 @@ public class LoginTest extends BaseTest {
         password = (password == null) ? "" : password.trim();
 
         loginPage.login(username, password);
+        
+        // Handle Google Password Manager popup if it appears
+        try {
+            // Wait a bit for popup to appear
+            Thread.sleep(1000);
+            
+            // Try multiple selectors for the popup
+            String[] popupSelectors = {
+                "button[aria-label='OK']",
+                "button:contains('OK')",
+                "div[role='dialog'] button",
+                "button[data-testid='ok-button']",
+                "button:contains('Change your password')"
+            };
+            
+            for (String selector : popupSelectors) {
+                try {
+                    WebElement popup = driver.findElement(By.cssSelector(selector));
+                    if (popup.isDisplayed()) {
+                        popup.click();
+                        System.out.println("Google Password Manager popup handled with selector: " + selector);
+                        Thread.sleep(500); // Wait for popup to close
+                        break;
+                    }
+                } catch (Exception e) {
+                    // Continue to next selector
+                }
+            }
+        } catch (Exception e) {
+            // Popup didn't appear, continue with test
+            System.out.println("No popup detected, continuing with test");
+        }
+        
         By resultLocator = expected.equals("success") ? loginPage.getSuccessLocator() : loginPage.getErrorLocator();
         WebElement result = (new WebDriverWait(driver, java.time.Duration.ofSeconds(20)))
             .until(org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated(resultLocator));

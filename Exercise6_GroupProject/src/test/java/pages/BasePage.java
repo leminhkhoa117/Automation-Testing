@@ -29,6 +29,12 @@ public class BasePage {
     protected void type(By locator, String text) {
         WebElement element = waitForVisibility(locator);
         element.clear();
+        
+        // Handle null or empty text safely
+        if (text == null || text.trim().isEmpty()) {
+            return; // Don't send keys if text is null or empty
+        }
+        
         element.sendKeys(text);
     }
 

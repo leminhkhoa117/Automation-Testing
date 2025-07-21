@@ -39,10 +39,23 @@ public class RegisterPage extends BasePage {
     public void enterLastName(String value) { type(lastName, value); }
     public void enterEmail(String value) { type(email, value); }
     public void selectGender(String gender) {
-        switch (gender.toLowerCase()) {
-            case "male": click(genderMale); break;
-            case "female": click(genderFemale); break;
-            case "other": click(genderOther); break;
+        if (gender == null || gender.trim().isEmpty()) {
+            return; // Don't select any gender if empty
+        }
+        
+        switch (gender.toLowerCase().trim()) {
+            case "male": 
+                click(genderMale); 
+                break;
+            case "female": 
+                click(genderFemale); 
+                break;
+            case "other": 
+                click(genderOther); 
+                break;
+            default:
+                System.out.println("Warning: Unknown gender '" + gender + "', skipping gender selection");
+                break;
         }
     }
     public void enterMobile(String value) { type(mobile, value); }
